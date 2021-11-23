@@ -1,0 +1,8 @@
+CREATE TABLE `oa_user` (
+    `id` BIGINT(20) UNSIGNED auto_increment COMMENT '主键',
+    `uid` BIGINT(20) UNSIGNED  COMMENT '系统uid',
+    `username` varchar(50) NOT NULL COMMENT '用户名',
+    `db_create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `db_modify_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=100000 COMMENT = '用户信息表';

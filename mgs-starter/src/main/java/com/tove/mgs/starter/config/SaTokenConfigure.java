@@ -1,0 +1,45 @@
+package com.tove.mgs.starter.config;
+
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
+import com.tove.mgs.starter.util.AjaxJson;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+
+import cn.dev33.satoken.reactor.filter.SaReactorFilter;
+
+/**
+ * [Sa-Token 权限认证] 配置类 
+ * @author kong
+ *
+ */
+@Configuration
+public class SaTokenConfigure {
+
+	/**
+     * 注册 [sa-token全局过滤器] 
+     */
+    @Bean
+    public SaReactorFilter getSaReactorFilter() {
+        return new SaReactorFilter()
+        		// 指定 [拦截路由]
+        		.addInclude("/**")
+        		// 指定 [放行路由]
+        		.addExclude("/favicon.ico")
+				.addExclude("/swagger-ui/*")
+        		// 指定[认证函数]: 每次请求执行 
+        		.setAuth(r -> {
+        			System.out.println("---------- sa全局认证");
+				 	SaRouter.match("/test/test", () -> StpUtil.checkLogin());
+        		})
+        		// 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数 
+        		.setError(e -> {
+        			System.out.println("---------- sa全局异常 ");
+        			return AjaxJson.getError(e.getMessage());
+        		})
+        		;
+    }
+	
+}
